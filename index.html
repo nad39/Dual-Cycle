@@ -186,28 +186,56 @@
         eta1 = W/Q1;
 
         //Isentropic Compression
-        for(i=v2;i<=v1;i=i+0.01) {
-            datapoints1.push({x: i, y: P1*Math.pow(v1, gamma) / Math.pow(i, gamma)});
+        for(i=v1;i>=v2;i=i-0.01) {
+            if (i==v1) {
+                datapoints1.push({x: i, y: P1*Math.pow(v1, gamma) / Math.pow(i, gamma), indexLabel:'1', indexLabelPlacement: "outside", indexLabelBackgroundColor: "yellow"});
+            }
+            else {
+                datapoints1.push({x: i, y: P1 * Math.pow(v1, gamma) / Math.pow(i, gamma)});
+            }
         }
 
         //Constant volume heat addition
         for(j=P2; j<=P3; j=j+0.01){
-            datapoints2.push({x: v2, y: j});
+            if (j===P2) {
+                datapoints2.push({x: v2, y: j, indexLabel: '2', indexLabelBackgroundColor: "yellow"});
+            }
+            else {
+                datapoints2.push({x: v2, y: j});
+            }
         }
 
         //Constant pressure heat addition
         for(k=v3; k<=v4; k=k+0.01){
-            datapoints3.push({ x: k, y: P3 });
+            if (k===v3) {
+                datapoints3.push({ x: k, y: P3, indexLabel: '3', indexLabelBackgroundColor: "yellow" });
+            }
+            else {
+                datapoints3.push({ x: k, y: P3});
+            }
         }
 
         //Isentropic Expansion
         for(m=v4; m<=v1; m=m+0.01){
-            datapoints4.push({ x: m , y: P4*Math.pow(v4, gamma)/Math.pow(m,gamma)});
+            if (m===v4) {
+                datapoints4.push({ x: m , y: P4*Math.pow(v4, gamma)/Math.pow(m,gamma), indexLabel:'4', indexLabelBackgroundColor: "yellow"});
+            }
+            else if (m===v5) {
+                datapoints4.push({ x: m , y: P4*Math.pow(v4, gamma)/Math.pow(m,gamma), indexLabel:'5', indexLabelBackgroundColor: "yellow"});
+            }
+            else {
+                datapoints4.push({x: m, y: P4 * Math.pow(v4, gamma) / Math.pow(m, gamma)});
+            }
         }
 
         //Constant volume heat removal
-        for(o=P1; o<=P5; o=o+0.01){
-            datapoints5.push({x: v1, y: o});
+        for(o=P5; o>=P1; o=o-0.01){
+            if (o===P5) {
+                datapoints5.push({x: v1, y: o, indexLabel:'5', indexLabelPlacement: "inside", indexLabelBackgroundColor: "yellow"});
+                }
+            else {
+                datapoints5.push({x: v1, y: o});
+            }
         }
 
         var data = [];
@@ -217,6 +245,7 @@
             showInLegend: true,
             name: "Isentropic Compression",
             markerSize: 1,
+            toolTipContent: "<strong>P</strong>: {y}, <strong>V</strong>: {x}",
             dataPoints: datapoints1
         })
 
@@ -226,6 +255,7 @@
             showInLegend: true,
             name: "Isochoric Heat Addition",
             markerSize: 1,
+            toolTipContent: "<strong>P</strong>: {y}, <strong>V</strong>: {x}",
             dataPoints: datapoints2
         })
         data.push({
@@ -234,6 +264,7 @@
             showInLegend: true,
             name: "Isobaric Heat Addition",
             markerSize: 1,
+            toolTipContent: "<strong>P</strong>: {y}, <strong>V</strong>: {x}",
             dataPoints: datapoints3
         })
         data.push({
@@ -242,6 +273,7 @@
             showInLegend: true,
             name: "Isentropic Expansion",
             markerSize: 1,
+            toolTipContent: "<strong>P</strong>: {y}, <strong>V</strong>: {x}",
             dataPoints: datapoints4
         })
 
@@ -251,6 +283,7 @@
             showInLegend: true,
             name: "Isochoric Heat Removal",
             markerSize: 1,
+            toolTipContent: "<strong>P</strong>: {y}, <strong>V</strong>: {x}",
             dataPoints: datapoints5
         })
 
